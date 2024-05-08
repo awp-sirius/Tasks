@@ -94,20 +94,24 @@ internal class Program
     {
         try
         {
-            throw new Exception();
+            throw new ArgumentNullException();
         }
-        catch
+        catch (Exception)
         {
             Console.WriteLine("Exception 1");
             try
             {
-                throw new Exception();
+                throw new ArgumentNullException();
             }
             catch
             {
                 throw new Exception();
                 Console.WriteLine("Exception 2");
             }
+        }
+        catch (ArgumentNullException)
+        {
+            Console.WriteLine("Exception 3");
         }
         finally
         {
