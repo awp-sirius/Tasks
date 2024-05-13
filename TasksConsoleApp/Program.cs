@@ -4,12 +4,30 @@ internal class Program
 {
     static async Task Main(string[] args)
     {
+        Console.WriteLine(nameof(Method1));
         Method1();
+        Console.WriteLine();
+
+        Console.WriteLine(nameof(Method2));
         Method2();
+        Console.WriteLine();
+
+        Console.WriteLine(nameof(Method3));
         await Method3();
+        Console.WriteLine();
+
+        Console.WriteLine(nameof(Method4));
         Method4();
+        Console.WriteLine();
+
+        Console.WriteLine(nameof(Method5));
         Method5();
+        Console.WriteLine();
+
+        Console.WriteLine(nameof(Method6));
         Method6();
+        Console.WriteLine();
+
         Console.ReadLine();
     }
 
@@ -36,19 +54,34 @@ internal class Program
 
     /*=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-*/
 
-    static string result = "empty";
+    static string taskRes = "empty";
 
     static async Task Method3()
     {
-        SaySomething();
-        Console.WriteLine(result);
+        Task<string> task = GetResAsync().ContinueWith(tsk => { taskRes = "finish"; return "return"; });
+        Thread.Sleep(10);
+        Console.WriteLine(taskRes);
+
+        task.Start();
+        Thread.Sleep(10);
+        Console.WriteLine(taskRes);
+
+        taskRes = task.Result;
+        Console.WriteLine(taskRes);
+
+        await task;
+        Console.WriteLine(taskRes);
+
+        taskRes = "empty";
+        GetResAsync();
+        Console.WriteLine(taskRes);
     }
 
-    static async Task<string> SaySomething()
+    static async Task<string> GetResAsync()
     {
-        await Task.Delay(10);
-        result = "Hello World";
-        return "Something";
+        taskRes = "start";
+        await Task.Delay(50);
+        return "method";
     }
 
     /*=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-*/
@@ -56,15 +89,18 @@ internal class Program
     static void Method4()
     {
         string s1 = "text";
-        object s2 = "text";
-        Console.WriteLine(s1 == s2);
-        Console.WriteLine(string.Equals(s1, s2));
+        object s2 = new string("text");
+        Console.WriteLine($"1. {s1 == s2}");
+        Console.WriteLine($"2. {string.Equals(s1, s2)}");
         s2 = string.Copy(s1);
-        Console.WriteLine(s1 == s2);
-        Console.WriteLine(string.Equals(s1, s2));
+        Console.WriteLine($"3. {s1 == s2}");
+        Console.WriteLine($"4. {string.Equals(s1, s2)}");
+        s2 = "text";
+        Console.WriteLine($"5. {s1 == s2}");
+        Console.WriteLine($"6. {string.Equals(s1, s2)}");
         s2 = s1;
-        Console.WriteLine(s1 == s2);
-        Console.WriteLine(string.Equals(s1, s2));
+        Console.WriteLine($"7. {s1 == s2}");
+        Console.WriteLine($"8. {string.Equals(s1, s2)}");
     }
 
     /*=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-*/
